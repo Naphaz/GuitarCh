@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ค้นหาคอร์ดและเนื้อเพลง</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card-header-custom {
+            background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .card-header-custom h1 {
+            color: white;
+            font-weight: 600;
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .card-header-custom .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        
+        .search-section {
+            padding: 2rem;
+        }
+        
+        .form-control:focus {
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 0.25rem rgba(116, 185, 255, 0.25);
+        }
+        
+        .btn-search {
+            background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-search:hover {
+            background: linear-gradient(135deg, #5fa8f5 0%, #8d85f3 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(116, 185, 255, 0.3);
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 2rem;
+            min-height: 400px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            line-height: 2;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .result-box:empty::before {
+            content: "ผลการค้นหาจะแสดงที่นี่...";
+            color: #adb5bd;
+            font-style: italic;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #74b9ff;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        
+        .input-group-text {
+            background: white;
+            border-right: none;
+            color: #74b9ff;
+        }
+        
+        .form-control {
+            border-left: none;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 2rem;
+            font-weight: 300;
+        }
+        
+        .icon-music {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        /* Custom scrollbar */
+        .result-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .result-box::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .result-box::-webkit-scrollbar-thumb {
+            background: #74b9ff;
+            border-radius: 10px;
+        }
+        
+        .result-box::-webkit-scrollbar-thumb:hover {
+            background: #5fa8f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="main-card">
+                    <div class="card-header-custom">
+                        <i class="bi bi-music-note-beamed icon-music"></i>
+                        <h1>ค้นหาคอร์ดเพลง</h1>
+                        <p class="subtitle">ค้นหาด้วย YouTube URL หรือชื่อเพลง</p>
+                    </div>
+                    
+                    <div class="search-section">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control form-control-lg" 
+                                   id="searchInput" 
+                                   placeholder="วาง YouTube URL หรือพิมพ์ชื่อเพลงที่นี่..."
+                                   onkeypress="if(event.key === 'Enter') fetchSongData()">
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-lg btn-search" onclick="fetchSongData()">
+                                <i class="bi bi-search me-2"></i>ค้นหาเลย
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <div id="result" class="result-box"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer>
+                    <i class="bi bi-info-circle me-2"></i>ข้อมูลจาก Chordzaa
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        (function() {
+            function showMessage(message, isError = true) {
+                const resultDiv = document.getElementById('result');
+                if (isError) {
+                    resultDiv.innerHTML = `<div class="error-message"><i class="bi bi-exclamation-triangle me-2"></i>${message}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="alert alert-info"><i class="bi bi-info-circle me-2"></i>${message}</div>`;
+                }
+            }
+
+            async function fetchSongData() {
+                const input = document.getElementById('searchInput').value.trim();
+                if (!input) {
+                    showMessage('กรุณาใส่ YouTube URL หรือชื่อเพลง');
+                    return;
+                }
+
+                let payload = {};
+                if (input.startsWith('http') && input.includes('youtube.com')) {
+                    payload.youtube_url = input;
+                } else {
+                    payload.song_name = input;
+                }
+
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '<div class="loading"><div class="spinner-border spinner-border-sm" role="status"></div><span>กำลังค้นหา...</span></div>';
+                
+                try {
+                    const response = await fetch('/search', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await response.json();
+                    resultDiv.innerText = data.result || 'ไม่พบข้อมูล';
+                } catch (error) {
+                    showMessage('เกิดข้อผิดพลาดในการเชื่อมต่อ: ' + error.message);
+                }
+            }
+
+            window.fetchSongData = fetchSongData;
+        })();
+    </script>
+</body>
+</html>

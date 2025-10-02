@@ -1,0 +1,18 @@
+# 1. สภาพแวดล้อมเสมือน (Virtual Environment) - ห้าม Commit!
+.venv/
+venv/
+env/
+pyvenv.cfg
+
+# 2. ไฟล์ข้อมูลลับ (Secrets) - ห้าม Commit!
+.env
+
+# 3. ไฟล์ที่ถูกคอมไพล์และแคชของ Python
+__pycache__/
+*.pyc
+
+# 4. ไฟล์การตั้งค่า IDE และไฟล์ระบบ (ไม่จำเป็นต้องแชร์)
+.DS_Store      # ไฟล์ของ macOS
+Thumbs.db      # ไฟล์ของ Windows
+.vscode/       # การตั้งค่า VS Code (ถ้ามี)
+*.log          # ไฟล์ Log
