@@ -40,8 +40,8 @@
 หากต้องการทดลองรันโปรเจกต์นี้ในเครื่องของคุณ:
 
 1.  **Clone the repository:**
-    ```bash
-    git clone [https://medium.com/@5735512017/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B-github-%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%88%E0%B8%B3%E0%B9%80%E0%B8%9B%E0%B9%87%E0%B8%99%E0%B8%95%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B9%89-fd0df64cada0](https://medium.com/@5735512017/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B-github-%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%88%E0%B8%B3%E0%B9%80%E0%B8%9B%E0%B9%87%E0%B8%99%E0%B8%95%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B9%89-fd0df64cada0)
+   ```bash
+    git clone [https://github.com/Naphaz/GuitarCh.git](https://github.com/Naphaz/GuitarCh.git)
     ```
 2.  **Install dependencies:**
     ```bash
