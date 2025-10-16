@@ -1,4 +1,4 @@
-# Guitar Chord Web - เว็บค้นหาคอร์ดกีตาร์จากลิงก์ YouTube
+# โปรเจคเพื่อการศึกษา Guitar Chord Web - เว็บค้นหาคอร์ดกีตาร์จากลิงก์ YouTube
 
 ![Language](https://img.shields.io/badge/Language-Python-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
